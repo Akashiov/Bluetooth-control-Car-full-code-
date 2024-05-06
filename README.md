@@ -1,1 +1,69 @@
 # Bluetooth-control-Car-full-code-
+#include <softwareserial.h>
+String b;
+long t;
+int d;
+void setup() {
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  PinMode(12,OUTPUT);
+  pinMode(13,OUTPUT);
+  
+  pinMode(8,OUTPUT);
+  pinMOde(9,INPUT);
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+digitWrite(8,0);
+delayMicroseconds(2);
+digitWrite(8,1);
+delayMicrosecond(10);
+digitWrite(8,0);
+t=pulseIn(9,1);
+d=0.034/2*t;
+
+if(Serial.avalable())
+{
+  b=Serial.readString();
+  Serial.println(b);
+}
+if(b=="f" && d>20)
+{
+  digitalWrite(3,1);
+  digitalWrite(4,0);
+  digitalWrite(12,0);
+  digitalWrite(13,1);
+}
+else if(b=="1" && d>20)
+{
+ digitalWrite(3,0);
+ digitalWrite(4,0);
+ digitalWrite(12,1);
+ digitalWrite(13,0); 
+}
+else if (b=="r" && d>20)
+{
+ digitalWrite(3,1);
+ digitalWrite(4,0);
+ digitalWrite(12,0);
+ digitalWrite(13,0); 
+}
+else if(b=="0")
+{
+ digitalWrite(3,0);
+ digitalWrite(3,0);
+ digitalWrite(12,0);
+ digitalWrite(13,0); 
+}
+else if(d>20)
+{
+  digitalWrite(3,0);
+  digitalWrite(3,0);
+  digitalWrite(3,0);
+  digitalWrite(3,0);
+}
+delay(1000);
+}
